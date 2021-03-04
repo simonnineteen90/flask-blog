@@ -8,14 +8,15 @@ app = Flask(__name__)
 def get_api_data():
     response = requests.get('https://api.npoint.io/43644ec4f0013682fc0d')
     response.raise_for_status()
-    data = response.json()[0]["body"]
+    data = response.json()
     return data
 
 
 @app.route('/')
 def index():
-    print(get_api_data())
-    return render_template('index.html')
+    api_data = get_api_data()
+    print(api_data[0])
+    return render_template('index.html', data=api_data)
 
 
 @app.route('/about')
@@ -25,6 +26,10 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
+@app.route('/post/<int:index>')
+def post(index):
+    return render_template('post.html')
 
 
 
