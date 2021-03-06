@@ -27,9 +27,16 @@ def about():
 def contact():
     return render_template('contact.html')
 
+
 @app.route('/post/<int:index>')
 def post(index):
-    return render_template('post.html')
+    api_data = get_api_data()
+    requested_post = None
+    for blog_posts in api_data:
+        if blog_posts["id"] == index:
+            requested_post = blog_posts
+
+    return render_template('post.html', post=requested_post)
 
 
 
